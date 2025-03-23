@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>맞춤형 복지 서비스 플랫폼</title>
     <script src="https://cdn.tailwindcss.com"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -106,7 +107,7 @@
                     시작하기</button>
             </div>
             <div class="w-1/2">
-                <img src="https://cdn.lifein.news/news/photo/202303/15299_21211_841.jpg" alt="복지 서비스 이미지"
+                <img src="https://t1.daumcdn.net/cfile/tistory/993082455AAD4A8C2D" alt="복지 서비스 이미지"
                     class="rounded-lg shadow-xl slide-in-right">
             </div>
         </div>
@@ -205,24 +206,92 @@
 
     <section id="contact" class="py-20 bg-gray-100">
         <div class="container mx-auto px-4">
-            <h2 class="text-3xl font-bold text-gray-800 text-center mb-12">사전등록 ✉️</h2>
-            <form class="max-w-lg mx-auto">
+            <h2 class="text-3xl font-bold text-gray-800 text-center mb-12">사전예약 ✉️</h2>
+            <form id="contactForm" class="max-w-lg mx-auto">
                 <div class="mb-6">
                     <label for="name" class="block text-gray-700 text-sm font-bold mb-2">이름</label>
-                    <input type="text" id="name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="이름을 입력하세요">
+                    <input type="text" id="name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="이름을 입력하세요" required>
                 </div>
                 <div class="mb-6">
                     <label for="email" class="block text-gray-700 text-sm font-bold mb-2">이메일</label>
-                    <input type="email" id="email" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="이메일 주소를 입력하세요">
+                    <input type="email" id="email" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="이메일 주소를 입력하세요" required>
                 </div>
-                <button type="button" class="bg-indigo-500 text-white px-4 py-2 rounded-md hover:bg-indigo-600 w-full" onclick="location.href = 'https://bit.ly/4hAdPjC' ">사전등록하기</button>
+                <div class="mb-6">
+                    <label for="message" class="block text-gray-700 text-sm font-bold mb-2">문의 내용(선택)</label>
+                    <textarea id="message" rows="5" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="문의 내용을 입력하세요"></textarea>
+                </div>
+                <button type="submit" class="bg-indigo-500 text-white px-4 py-2 rounded-md hover:bg-indigo-600 w-full">사전예약 신청하기</button>
             </form>
         </div>
+		
+		                <div class="max-w-xl mx-auto text-sm text-gray-700 mt-6">
+                    <label class="block mb-2">
+                        <div class="flex items-start space-x-2">
+                            <input type="checkbox" id="policyConsent" required class="mt-1">
+                            <span>아래 내용을 확인하였으며 개인정보 수집 및 이용에 동의합니다.</span>
+                        </div>
+                    </label>
+                    <div class="ml-6">
+                        <button type="button" onclick="togglePolicy()" class="text-blue-600 underline">
+                            [자세히 보기]
+                        </button>
+                    </div>
+
+                    <!-- 펼쳐지는 내용 -->
+                    <div id="policy" class="bg-gray-50 border border-gray-200 rounded p-4 mt-2 hidden">
+                        <p class="mb-2"><strong>✅ 수집 항목 :</strong> 이메일 주소, 이름, 문의 내용(선택)</p>
+                        <p class="mb-2"><strong>✅ 수집 목적 :</strong> 앱 수요 설문조사 및 사전예약 응답 처리</p>
+                        <p class="mb-2"><strong>✅ 수집 주체 :</strong> 가천대학교 GCS 6기 최지웅</p>
+                        <p class="mb-2"><strong>✅ 보유 및 이용 기간 :</strong> 수집일로부터 1개월 이내 파기</p>
+                        <p class="mb-2"><strong>✅ 동의 거부 시 불이익 :</strong> 사전예약은 불가능하나, 향후 정식 서비스 이용에는 제한 없음</p>
+                        <p class="mb-2"><strong>✅ 문의처 :</strong> choijiwoong157@gmail.com</p>
+                    </div>
+                </div>
     </section>
 
     <footer class="bg-gray-800 py-8 text-center">
         <p class="text-gray-400">© 2024 맞춤형 복지 서비스 플랫폼. All rights reserved.</p>
     </footer>
 </body>
+
+<!-- jQuery AJAX 요청 코드 -->
+<script>
+    $(document).ready(function() {
+        $('#contactForm').on('submit', function(event) {
+            event.preventDefault();
+
+            // 입력 값 가져오기
+            var name = $('#name').val();
+            var email = $('#email').val();
+            var message = $('#message').val();
+
+            console.log(name, email, message);
+
+            $.ajax({
+                type: "POST",
+                url: "https://script.google.com/macros/s/AKfycbx0l80rWPRQVxc0FTwaUHsThWeJY9oj9visGxCcD7EiBFqjCqvYmaSPvQpD_8IuRe5s/exec",
+                data: {
+                    "이름": name,
+                    "이메일": email,
+                    "문의사항": message
+                },
+                success: function(response) {
+                    alert('사전예약이 성공적으로 접수되었습니다.');
+                    $('#contactForm')[0].reset(); // 폼 초기화
+                },
+                error: function(err) {
+                    alert('오류가 발생했습니다. 다시 시도해주세요.');
+                    console.log(err);
+                }
+            });
+        });
+    });
+	
+	function togglePolicy() {
+        const policy = document.getElementById('policy');
+        policy.classList.toggle('hidden');
+    }
+	
+</script>
 
 </html>
